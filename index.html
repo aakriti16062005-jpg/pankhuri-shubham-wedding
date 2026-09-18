@@ -242,7 +242,7 @@ a { color:inherit; text-decoration:none; }
    peek out from underneath, like a real stack of photos. */
 .story-card-wrapper {
   position: absolute;
-  top: 56%;
+  top: 50%;
   left: 50%;
   display: flex;
   align-items: center;
@@ -1257,22 +1257,33 @@ function initStoryStack(){
 
     // Collapse the fixed-height container so the stacked photos
     // sit naturally in the page flow rather than leaving a huge blank gap.
-    container.style.height = 'auto';
     container.style.overflow = 'visible';
-    container.style.minHeight = '0';
     container.classList.add('released');
 
-    // Convert all landed card wrappers to static positioning so they
-    // stack visually in place without the absolute-position offset magic.
-    wrappers.forEach((wrap, i) => {
-      const rest = restOffsets[i] || { x:0, y:0 };
-      wrap.style.position = 'relative';
-      wrap.style.top = 'auto';
-      wrap.style.left = 'auto';
-      wrap.style.transform = `translateX(${rest.x}px) translateY(${rest.y}px)`;
-      wrap.style.marginTop = i === 0 ? '0' : '-85%';
-      wrap.style.zIndex = i + 1;
+    // Freeze each card at its exact current visual position (using getBoundingClientRect
+    // to get the real pixel coords), then collapse the container.
+    // This avoids any layout jump on Android where percentage-based positioning
+    // behaves differently from iOS.
+    const containerRect = container.getBoundingClientRect();
+    const scrollTop = window.scrollY || window.pageYOffset;
+
+    wrappers.forEach((wrap) => {
+      const rect = wrap.getBoundingClientRect();
+      const absTop = rect.top + scrollTop - (containerRect.top + scrollTop);
+      const absLeft = rect.left - containerRect.left;
+      wrap.style.position = 'absolute';
+      wrap.style.top = absTop + 'px';
+      wrap.style.left = absLeft + 'px';
+      wrap.style.transform = 'none';
     });
+
+    // Now collapse the container height to wrap tightly around the stack
+    container.style.height = (
+      Math.max(...Array.from(wrappers).map(w => {
+        const r = w.getBoundingClientRect();
+        return r.bottom - containerRect.top - (window.scrollY || 0) + 20;
+      }))
+    ) + 'px';
 
     // Also reveal venue and festivities now
     const venue = document.getElementById('venueSection');
