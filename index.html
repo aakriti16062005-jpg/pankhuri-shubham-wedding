@@ -231,6 +231,11 @@ a { color:inherit; text-decoration:none; }
   width: 100%;
   overflow: hidden;
 }
+.story-stack-container.released {
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 2rem;
+}
 /* All 4 cards sit centered, fixed in place within the locked viewport.
    Each starts off-screen below except the first; JS advances them
    one at a time, each landing with a slight offset so earlier ones
@@ -1250,8 +1255,26 @@ function initStoryStack(){
     if(hint) hint.classList.add('hidden');
     if(header) header.classList.remove('pinned');
 
-    // Only now — after the user has actually scrolled through and seen
-    // all 4 story photos — make the venue and festivities sections reachable.
+    // Collapse the fixed-height container so the stacked photos
+    // sit naturally in the page flow rather than leaving a huge blank gap.
+    container.style.height = 'auto';
+    container.style.overflow = 'visible';
+    container.style.minHeight = '0';
+    container.classList.add('released');
+
+    // Convert all landed card wrappers to static positioning so they
+    // stack visually in place without the absolute-position offset magic.
+    wrappers.forEach((wrap, i) => {
+      const rest = restOffsets[i] || { x:0, y:0 };
+      wrap.style.position = 'relative';
+      wrap.style.top = 'auto';
+      wrap.style.left = 'auto';
+      wrap.style.transform = `translateX(${rest.x}px) translateY(${rest.y}px)`;
+      wrap.style.marginTop = i === 0 ? '0' : '-85%';
+      wrap.style.zIndex = i + 1;
+    });
+
+    // Also reveal venue and festivities now
     const venue = document.getElementById('venueSection');
     if(venue) venue.style.display = 'block';
     const festivities = document.getElementById('festivitiesSection');
