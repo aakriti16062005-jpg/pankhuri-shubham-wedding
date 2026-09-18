@@ -52,13 +52,13 @@ a { color:inherit; text-decoration:none; }
 .hero-card { z-index:3; backdrop-filter: blur(18px); border:1px solid rgba(212,175,55,.32); width:100%; max-width:620px; box-shadow: var(--shadow), 0 0 0 4px rgba(226,180,177,.15) inset; text-align:center; background: rgba(253,251,247,.93); border-radius:2.2rem; flex-direction:column; align-items:center; gap:1.25rem; padding: clamp(1.5rem,3vw,2rem) clamp(1.75rem,5vw,2.5rem); display:flex; position:relative; opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
 .hero-card.visible { opacity:1; transform:translateY(0); }
 .hero-icon { width:70px; height:70px; filter: drop-shadow(0 6px 18px rgba(212,175,55,.4)); animation: float 4s ease-in-out infinite; }
-.god-quote { font-family: var(--font-body); color: var(--sage-deep); letter-spacing:.04em; text-align:center; max-width:90%; font-size:1.05rem; font-style:italic; line-height:1.5; }
-.intro-text { font-family: var(--font-body); color: var(--sage-dark); letter-spacing:.02em; text-align:center; max-width:95%; font-size:1.1rem; font-style:italic; line-height:1.6; }
+.god-quote { font-family: var(--font-body); color: var(--sage-deep); letter-spacing:.04em; text-align:center; max-width:90%; font-size:1.25rem; font-style:italic; line-height:1.6; }
+.intro-text { font-family: var(--font-body); color: var(--sage-dark); letter-spacing:.02em; text-align:center; max-width:95%; font-size:1.25rem; font-style:italic; line-height:1.7; }
 .couple-name { font-family: var(--font-display); text-align:center; letter-spacing:.02em; width:100%; font-size: clamp(2.5rem,12vw,5rem); font-weight:400; line-height:1.35; display:block; }
 .amp-row { justify-content:center; align-items:center; gap:1rem; width:100%; display:flex; }
 .amp-line { background: var(--border); width:44px; height:1px; }
 .amp { color: var(--gold); font-family: Tangerine, cursive; font-size:2.6rem; font-weight:700; line-height:1; }
-.parent-sub { font-family: var(--font-body); color: var(--text-mid); text-align:center; max-width:95%; font-size:1rem; font-style:italic; font-weight:500; line-height:1.5; }
+.parent-sub { font-family: var(--font-body); color: var(--text-mid); text-align:center; max-width:95%; font-size:1.2rem; font-style:italic; font-weight:500; line-height:1.6; }
 
 .scroll-indicator { z-index:10; opacity:0; cursor:pointer; flex-direction:column; align-items:center; gap:6px; animation: fadeIn 1.5s 1.5s forwards; display:flex; position:absolute; bottom:2.5rem; left:50%; transform: translateX(-50%); }
 .scroll-indicator span { font-family: var(--font-sans); letter-spacing:.25em; text-transform:uppercase; color: var(--sage-dark); font-size:.7rem; }
@@ -111,8 +111,8 @@ a { color:inherit; text-decoration:none; }
   font-family: var(--font-body);
   color: var(--text-mid);
   font-style: italic;
-  font-size: .95rem;
-  line-height: 1.6;
+  font-size: 1.15rem;
+  line-height: 1.7;
   margin-bottom: .5rem;
 }
 .countdown-title {
@@ -128,7 +128,7 @@ a { color:inherit; text-decoration:none; }
   letter-spacing: .25em;
   text-transform: uppercase;
   color: var(--sage-deep);
-  font-size: .85rem;
+  font-size: 1rem;
   margin-top: 1.25rem;
   margin-bottom: 2.5rem;
 }
@@ -164,7 +164,7 @@ a { color:inherit; text-decoration:none; }
 .countdown-num {
   font-family: var(--font-body);
   color: var(--text-dark);
-  font-size: clamp(2.2rem, 8vw, 3rem);
+  font-size: clamp(2.8rem, 10vw, 3.8rem);
   font-weight: 300;
   line-height: 1;
   position: relative;
@@ -182,7 +182,7 @@ a { color:inherit; text-decoration:none; }
   letter-spacing: .25em;
   text-transform: uppercase;
   color: var(--sage-deep);
-  font-size: .75rem;
+  font-size: .9rem;
 }
 
 /* FOREVER US — OUR STORY SECTION */
@@ -210,11 +210,11 @@ a { color:inherit; text-decoration:none; }
 }
 .sec-label {
   font-family: var(--font-sans);
-  letter-spacing: .35em;
+  letter-spacing: .25em;
   color: var(--gold);
   text-transform: uppercase;
   margin-bottom: .5rem;
-  font-size: .8rem;
+  font-size: .95rem;
   display: block;
 }
 .sec-heading {
@@ -335,7 +335,7 @@ a { color:inherit; text-decoration:none; }
 .venue-name {
   font-family: var(--font-body);
   color: var(--sage-deep);
-  font-size: 1.6rem;
+  font-size: 1.85rem;
   font-weight: 600;
   margin-bottom: .75rem;
   line-height: 1.3;
@@ -344,8 +344,8 @@ a { color:inherit; text-decoration:none; }
   font-family: var(--font-body);
   color: var(--sage-dark);
   font-style: italic;
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.2rem;
+  line-height: 1.8;
   margin-bottom: 1.25rem;
 }
 .venue-label {
@@ -411,14 +411,14 @@ a { color:inherit; text-decoration:none; }
   font-family: var(--font-body);
   color: var(--sage-dark);
   font-style: italic;
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.75;
   margin-bottom: 1.75rem;
 }
 .festivities-event-name {
   font-family: var(--font-body);
   color: var(--sage-deep);
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: .4rem;
 }
@@ -426,7 +426,7 @@ a { color:inherit; text-decoration:none; }
   font-family: var(--font-sans);
   letter-spacing: .12em;
   color: var(--sage-dark);
-  font-size: .85rem;
+  font-size: 1rem;
   margin-bottom: 1.5rem;
 }
 .festivities-dresscode {
@@ -476,8 +476,8 @@ a { color:inherit; text-decoration:none; }
   background: rgba(44, 36, 25, 0.88);
   color: #fdfbf7;
   font-family: var(--font-sans);
-  font-size: .82rem;
-  letter-spacing: .15em;
+  font-size: 1rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
   padding: .7rem 1.4rem;
   border-radius: 999px;
@@ -516,7 +516,7 @@ a { color:inherit; text-decoration:none; }
 
 <div id="scroll-toast">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-  Scroll down to see more
+  👇 Scroll Down for More
 </div>
 
 <div class="entry-gate" id="entryGate">
@@ -1009,7 +1009,7 @@ function resetIdleTimer(){
   }
   // Reset the 7-second idle countdown
   clearTimeout(idleTimer);
-  idleTimer = setTimeout(showScrollHint, 7000);
+  idleTimer = setTimeout(showScrollHint, 3000);
 }
 
 // Start idle detection on scroll, touch, and click
