@@ -27,8 +27,14 @@
   --font-script: "Italianno", cursive;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html { scroll-behavior: smooth; }
-body { background: var(--cream); color: var(--text-dark); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+  /* Prevent Android Chrome from auto-inflating font sizes */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body { background: var(--cream); color: var(--text-dark); font-family: var(--font-body); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; text-rendering: optimizeLegibility; }
 body.no-scroll { overflow: hidden; height: 100vh; }
 img { max-width:100%; display:block; }
 button { cursor:pointer; background:none; border:none; font-family:inherit; }
@@ -54,7 +60,7 @@ a { color:inherit; text-decoration:none; }
 .hero-icon { width:70px; height:70px; filter: drop-shadow(0 6px 18px rgba(212,175,55,.4)); animation: float 4s ease-in-out infinite; }
 .god-quote { font-family: var(--font-body); color: var(--sage-deep); letter-spacing:.04em; text-align:center; max-width:90%; font-size:1.25rem; font-style:italic; line-height:1.6; }
 .intro-text { font-family: var(--font-body); color: var(--sage-dark); letter-spacing:.02em; text-align:center; max-width:95%; font-size:1.25rem; font-style:italic; line-height:1.7; }
-.couple-name { font-family: var(--font-display); text-align:center; letter-spacing:.02em; width:100%; font-size: clamp(4rem,14vw,6.5rem); font-weight:400; line-height:1.35; display:block; }
+.couple-name { font-family: var(--font-display); text-align:center; letter-spacing:.02em; width:100%; font-size: 4.5rem; font-weight:400; line-height:1.35; display:block; }
 .amp-row { justify-content:center; align-items:center; gap:1rem; width:100%; display:flex; }
 .amp-line { background: var(--border); width:44px; height:1px; }
 .amp { color: var(--gold); font-family: Tangerine, cursive; font-size:2.6rem; font-weight:700; line-height:1; }
@@ -68,7 +74,7 @@ a { color:inherit; text-decoration:none; }
 
 .scratch-section { background: var(--cream); text-align:center; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; padding:2rem 1rem; display:flex; }
 .scratch-title-sub { font-family: var(--font-sans); letter-spacing:.35em; color:var(--gold); text-transform:uppercase; margin-bottom:.5rem; font-size:.8rem; display:block; }
-.scratch-title { font-family: var(--font-display); color: var(--sage-deep); margin-bottom:1rem; font-size:clamp(4rem,12vw,6rem); line-height:1.1; }
+.scratch-title { font-family: var(--font-display); color: var(--sage-deep); margin-bottom:1rem; font-size: 4.5rem; line-height:1.1; }
 .scratch-desc { font-family: var(--font-body); color: var(--text-mid); margin-bottom:3.5rem; font-size:1.1rem; font-style:italic; }
 .scratch-grid { flex-wrap:wrap; justify-content:center; gap:1.5rem; display:flex; }
 .scratch-item { flex-direction:column; align-items:center; gap:1rem; display:flex; }
@@ -118,7 +124,7 @@ a { color:inherit; text-decoration:none; }
 .countdown-title {
   font-family: "Italianno", cursive;
   color: var(--sage-dark);
-  font-size: clamp(4rem,12vw,6rem);
+  font-size: 4.5rem;
   line-height: 1.15;
   text-align: center;
   margin: .25rem 0 .5rem;
@@ -164,7 +170,7 @@ a { color:inherit; text-decoration:none; }
 .countdown-num {
   font-family: var(--font-body);
   color: var(--text-dark);
-  font-size: clamp(2.8rem, 10vw, 3.8rem);
+  font-size: 3rem;
   font-weight: 300;
   line-height: 1;
   position: relative;
@@ -188,25 +194,15 @@ a { color:inherit; text-decoration:none; }
 /* FOREVER US — OUR STORY SECTION */
 .story-section {
   background: var(--cream);
-  padding: 5rem 0 0;
+  padding: 4rem 0 4rem;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 .story-header {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   position: relative;
   z-index: 5;
-}
-.story-header.pinned {
-  position: fixed;
-  top: 6vh;
-  left: 0;
-  right: 0;
-  z-index: 60;
-  margin-bottom: 0;
-  pointer-events: none;
 }
 .sec-label {
   font-family: var(--font-sans);
@@ -220,7 +216,7 @@ a { color:inherit; text-decoration:none; }
 .sec-heading {
   font-family: var(--font-display);
   color: var(--sage-deep);
-  font-size: clamp(4rem, 12vw, 6rem);
+  font-size: 4.5rem;
   line-height: 1.1;
 }
 .story-stack-container {
@@ -257,8 +253,8 @@ a { color:inherit; text-decoration:none; }
 .story-polaroid {
   background: #fff;
   border-radius: 4px;
-  width: min(68vw, 42vh, 42dvh, calc(var(--real-vh, 1vh) * 42), 300px);
-  padding: 10px 10px 40px;
+  width: 260px;
+  padding: 10px 10px 48px;
   position: relative;
   box-shadow: 0 15px 35px rgba(0,0,0,.18), 0 5px 15px rgba(0,0,0,.1);
 }
@@ -277,10 +273,10 @@ a { color:inherit; text-decoration:none; }
   text-align: center;
   font-family: "DM Serif Display", "Distrela", serif;
   color: var(--sage-deep);
-  font-size: clamp(1.2rem, 4.2vw, 1.5rem);
+  font-size: 1.35rem;
 }
 .story-polaroid-caption--final {
-  font-size: clamp(1.8rem, 6vw, 2.3rem);
+  font-size: 2rem;
   color: var(--sage-deep);
   font-weight: 400;
 }
@@ -392,7 +388,7 @@ a { color:inherit; text-decoration:none; }
   text-align: center;
 }
 .festivities-heading {
-  font-size: clamp(4rem, 12vw, 6rem);
+  font-size: 4.5rem;
 }
 .festivities-card {
   background: var(--white);
@@ -1238,8 +1234,6 @@ function initStoryStack(){
     locked = true;
     document.body.classList.add('no-scroll');
     if(hint) hint.classList.remove('hidden');
-    if(header) header.classList.add('pinned');
-
     // The first photo should already be sitting in place the moment this
     // section is reached, with no scroll needed to reveal it.
     if(currentStep === 0){
@@ -1253,39 +1247,22 @@ function initStoryStack(){
     completed = true;
     document.body.classList.remove('no-scroll');
     if(hint) hint.classList.add('hidden');
-    if(header) header.classList.remove('pinned');
 
-    // Collapse the fixed-height container so the stacked photos
-    // sit naturally in the page flow rather than leaving a huge blank gap.
+    // Switch container to fixed height centered pile — simple, cross-platform reliable
+    container.style.height = '380px';
     container.style.overflow = 'visible';
     container.classList.add('released');
 
-    // Freeze each card at its exact current visual position (using getBoundingClientRect
-    // to get the real pixel coords), then collapse the container.
-    // This avoids any layout jump on Android where percentage-based positioning
-    // behaves differently from iOS.
-    const containerRect = container.getBoundingClientRect();
-    const scrollTop = window.scrollY || window.pageYOffset;
-
-    wrappers.forEach((wrap) => {
-      const rect = wrap.getBoundingClientRect();
-      const absTop = rect.top + scrollTop - (containerRect.top + scrollTop);
-      const absLeft = rect.left - containerRect.left;
+    // Reposition all cards to center of container with their peek-out offsets
+    wrappers.forEach((wrap, i) => {
+      const rest = restOffsets[i] || { x:0, y:0 };
       wrap.style.position = 'absolute';
-      wrap.style.top = absTop + 'px';
-      wrap.style.left = absLeft + 'px';
-      wrap.style.transform = 'none';
+      wrap.style.top = '50%';
+      wrap.style.left = '50%';
+      wrap.style.transform = `translate(calc(-50% + ${rest.x}px), calc(-50% + ${rest.y}px))`;
     });
 
-    // Now collapse the container height to wrap tightly around the stack
-    container.style.height = (
-      Math.max(...Array.from(wrappers).map(w => {
-        const r = w.getBoundingClientRect();
-        return r.bottom - containerRect.top - (window.scrollY || 0) + 20;
-      }))
-    ) + 'px';
-
-    // Also reveal venue and festivities now
+    // Reveal venue and festivities
     const venue = document.getElementById('venueSection');
     if(venue) venue.style.display = 'block';
     const festivities = document.getElementById('festivitiesSection');
