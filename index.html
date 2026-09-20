@@ -486,6 +486,59 @@ a { color:inherit; text-decoration:none; }
   font-size: .95rem;
 }
 
+/* CLOSING SECTION */
+.closing-section {
+  background: var(--sage-deep);
+  padding: 5rem 2rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.closing-quote {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: rgba(253,251,247,0.88);
+  font-size: 1.25rem;
+  line-height: 1.8;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+.closing-regards-label {
+  font-family: var(--font-sans);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-size: .85rem;
+  margin-bottom: 1rem;
+}
+.closing-regards-name {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: rgba(253,251,247,0.85);
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 3.5rem;
+}
+.closing-couple {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+}
+.closing-bride,
+.closing-groom {
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 4.5rem;
+  line-height: 1.1;
+}
+.closing-amp {
+  font-family: var(--font-sans);
+  color: rgba(253,251,247,0.7);
+  font-size: 1.5rem;
+  margin: .3rem 0;
+}
+
 #confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:9999; }
 #petal-canvas { position:fixed; inset:0; pointer-events:none; z-index:40; opacity:0; transition:opacity 1.5s; }
 #petal-canvas.active { opacity:1; }
@@ -759,6 +812,18 @@ a { color:inherit; text-decoration:none; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Get Directions
       </a>
+    </div>
+  </section>
+
+  <section class="closing-section" id="closingSection" style="display:none;">
+    <p class="closing-quote">Your presence will turn this real-life romance into a blockbuster we'll never forget.</p>
+    <p class="closing-quote">Come, dance, laugh, and celebrate with us in true Bollywood style!</p>
+    <p class="closing-regards-label">Warm Regards,</p>
+    <p class="closing-regards-name">Mrs Poonam and Mr Pawan Kaushal and family</p>
+    <div class="closing-couple">
+      <span class="closing-bride">Pankhuri</span>
+      <span class="closing-amp">&amp;</span>
+      <span class="closing-groom">Shubham</span>
     </div>
   </section>
 </div>
@@ -1294,6 +1359,8 @@ function initStoryStack(){
     if(venue) venue.style.display = 'block';
     const festivities = document.getElementById('festivitiesSection');
     if(festivities) festivities.style.display = 'block';
+    const closing = document.getElementById('closingSection');
+    if(closing) closing.style.display = 'block';
   }
 
   function advance(direction){
