@@ -251,7 +251,7 @@ a { color:inherit; text-decoration:none; }
   flex-direction: column;
 }
 .story-stack-container.released .story-stack-area {
-  height: 380px;
+  height: 680px;
   flex: none;
 }
 /* All 4 cards sit centered, fixed in place within the locked viewport.
@@ -275,14 +275,17 @@ a { color:inherit; text-decoration:none; }
 .story-polaroid {
   background: #fff;
   border-radius: 4px;
-  width: 260px;
-  padding: 10px 10px 48px;
+  width: 90vw;
+  max-width: 420px;
+  height: calc(var(--real-vh, 1vh) * 82);
+  max-height: 680px;
+  padding: 10px 10px 56px;
   position: relative;
   box-shadow: 0 15px 35px rgba(0,0,0,.18), 0 5px 15px rgba(0,0,0,.1);
 }
 .story-polaroid img {
   width: 100%;
-  aspect-ratio: 4/5;
+  height: 100%;
   object-fit: cover;
   border-radius: 2px;
   display: block;
@@ -1299,9 +1302,9 @@ function initStoryStack(){
   // from underneath later ones, like a real stack of photos tossed down one by one.
   const restOffsets = [
     { x: 0,  y: 0 },
-    { x: 10, y: -6 },
-    { x: -9, y: -11 },
-    { x: 7,  y: -16 }
+    { x: 14, y: -8 },
+    { x: -12, y: -14 },
+    { x: 10,  y: -20 }
   ];
 
   let currentStep = 0;        // how many cards have landed so far (0 to total)
@@ -1341,7 +1344,7 @@ function initStoryStack(){
     container.classList.add('released');
 
     if(stackArea){
-      stackArea.style.height = '380px';
+      stackArea.style.height = '680px';
       stackArea.style.position = 'relative';
       stackArea.style.flex = 'none';
     }
