@@ -933,37 +933,36 @@ document.getElementById('entryGate').addEventListener('click', function(){
     videoWrap.classList.add('show');
     video.currentTime = 0;
 
+    let revealed = false;
+    function revealInvite(){
+      if(revealed) return;
+      revealed = true;
+      // Fade the video wrap out, reveal invite underneath simultaneously
+      videoWrap.style.transition = 'opacity 0.8s ease';
+      videoWrap.style.opacity = '0';
+      document.getElementById('main-content').classList.add('visible');
+      document.getElementById('petal-canvas').classList.add('active');
+      startPetals();
+      setTimeout(()=> document.getElementById('heroCard').classList.add('visible'), 400);
+      setTimeout(()=>{ videoWrap.style.display = 'none'; }, 900);
+    }
+
     function tryPlay(){
       video.play().catch(()=>{
         video.muted = true;
-        video.play().catch(()=>{});
+        video.play().catch(()=>{ revealInvite(); });
       });
     }
     if(video.readyState >= 1) tryPlay();
     else video.addEventListener('loadedmetadata', tryPlay, { once: true });
 
-    // Safety net: if video doesn't start in 3s, skip to invite
+    // Safety net: if video doesn't start in 3s, skip straight to invite
     let videoStarted = false;
     video.addEventListener('playing', ()=>{ videoStarted = true; }, { once: true });
     setTimeout(()=>{ if(!videoStarted) revealInvite(); }, 3000);
 
-    // Fade to cream near end of video
-    video.addEventListener('timeupdate', function onTime(){
-      if(video.duration && video.currentTime >= video.duration - 0.7){
-        video.removeEventListener('timeupdate', onTime);
-        fadeOverlay.classList.add('fade-in');
-      }
-    });
-
+    // Reveal invite when video ends
     video.addEventListener('ended', revealInvite, { once: true });
-
-    function revealInvite(){
-      document.getElementById('main-content').classList.add('visible');
-      document.getElementById('petal-canvas').classList.add('active');
-      startPetals();
-      setTimeout(()=> document.getElementById('heroCard').classList.add('visible'), 300);
-      setTimeout(()=>{ videoWrap.style.display = 'none'; }, 1400);
-    }
   }, 600);
 });
 
