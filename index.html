@@ -262,6 +262,49 @@ a { color:inherit; text-decoration:none; }
   align-items: center;
   justify-content: center;
 }
+
+/* Mobile story layout: keep the heading near the top and center the photo
+   stack against the full viewport, rather than centering it only in the
+   leftover space beneath the heading. */
+@media (max-width: 600px) {
+  .story-stack-container:not(.released) {
+    position: relative;
+    height: calc(var(--real-vh, 1vh) * 100);
+    min-height: 0;
+    overflow: hidden;
+  }
+  .story-stack-container:not(.released) .story-header {
+    position: absolute;
+    top: clamp(1.25rem, 4vh, 2.5rem);
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+  }
+  .story-stack-container:not(.released) .story-stack-area {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    flex: none;
+  }
+  .story-stack-container:not(.released) .story-polaroid {
+    height: calc(var(--real-vh, 1vh) * 46);
+    max-height: 420px;
+    width: min(88vw, 360px);
+    padding: 8px 8px 42px;
+  }
+  .story-stack-container:not(.released) .story-polaroid-caption {
+    bottom: 12px;
+    font-size: 1.2rem;
+  }
+  .story-stack-container:not(.released) .story-polaroid-caption--final {
+    font-size: 1.7rem;
+  }
+  .story-stack-container:not(.released) .story-scroll-hint {
+    bottom: 18px;
+  }
+}
 .story-stack-container.released {
   height: auto !important;
   overflow: visible !important;
