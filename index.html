@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  // Always restart the invitation from the beginning on refresh/reopen.
+  // Prevent mobile browsers from restoring the previous scroll position.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('pageshow', function () {
+    window.scrollTo(0, 0);
+  });
+</script>
 <title>Pankhuri &amp; Shubham | Wedding Invitation</title>
 <meta name="description" content="You are warmly invited to celebrate the wedding festivities of Pankhuri and Shubham, November 22–24, 2026.">
 <link rel="canonical" href="https://pankhuri-shubham-wedding.vercel.app/">
@@ -844,27 +852,6 @@ a { color:inherit; text-decoration:none; }
     </div>
   </section>
 
-  <section class="venue-section" id="venueSection" style="display:none;">
-    <span class="sec-label">Where</span>
-    <h2 class="sec-heading">The Venue</h2>
-
-    <div class="venue-card">
-      <img class="venue-photo" src="assets/inline-08.jpg" alt="Mandakini Farms decor">
-
-      <span class="venue-sparkle">&#10022;</span>
-
-      <p class="venue-name">Mandakini Farms</p>
-      <p class="venue-addr">G.T. Road, Paragpur,<br>Jalandhar, Punjab - 144005</p>
-
-      <span class="venue-label">Where</span>
-
-      <a class="venue-btn" href="https://maps.app.goo.gl/y6rQqoh7JxX3iPAX7?g_st=aw" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        View on Maps
-      </a>
-    </div>
-  </section>
-
   <section class="festivities-section" id="festivitiesSection" style="display:none;">
     <span class="sec-label">The Celebrations Unfold</span>
     <h2 class="sec-heading festivities-heading">Festivities</h2>
@@ -915,6 +902,27 @@ a { color:inherit; text-decoration:none; }
       <a class="venue-btn" href="https://www.google.com/maps/place/Mandakini+Farms,+G.T.+Road,+Paragpur,+Jalandhar,+Punjab+144005/data=!4m2!3m1!1s0x391a58d71f9bc85d:0xb3036cd82397b34d!18m1!1e1?utm_source=mstt_1&entry=gps&coh=192189&g_ep=CAESCDI2LjI0LjEwGAAg14IDKp8BLDk0MjY3NzI3LDk0MjkyMTk1LDk0Mjk5NTMyLDEwMDc5NjQ5OCwxMDA3OTc3NjEsMTAwNzk2NTM1LDk0MjgwNTc2LDEwMDgxMTk1OSw5NDIwNzM5NCw5NDIwNzUwNiw5NDIwODUwNiw5NDIxODY1Myw5NDIyOTgzOSw5NDI3NTE2OCw5NDI3OTYxOSwxMDA4MTU2NDAsMTAwODEyOTk0QgJJTg%3D%3D&skid=bc6d00c3-2b0a-4743-bdf3-f4f332dcaf2c&g_st=aw" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Get Directions
+      </a>
+    </div>
+  </section>
+
+  <section class="venue-section" id="venueSection" style="display:none;">
+    <span class="sec-label">Where</span>
+    <h2 class="sec-heading">The Venue</h2>
+
+    <div class="venue-card">
+      <img class="venue-photo" src="assets/inline-08.jpg" alt="Mandakini Farms decor">
+
+      <span class="venue-sparkle">&#10022;</span>
+
+      <p class="venue-name">Mandakini Farms</p>
+      <p class="venue-addr">G.T. Road, Paragpur,<br>Jalandhar, Punjab - 144005</p>
+
+      <span class="venue-label">Where</span>
+
+      <a class="venue-btn" href="https://maps.app.goo.gl/y6rQqoh7JxX3iPAX7?g_st=aw" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        View on Maps
       </a>
     </div>
   </section>
@@ -976,6 +984,7 @@ audio.addEventListener('ended', () => {
 // Most browsers block this until a user gesture happens (the envelope tap
 // guarantees it below), but we attempt it early in case the browser allows it.
 window.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
   audio.currentTime = 0.05;
   audio.play().catch(() => {
     // Expected to fail before user interaction in most browsers — that's fine,
