@@ -324,22 +324,6 @@ a { color:inherit; text-decoration:none; }
 }
 @media (max-width: 600px) {
   .story-stack-container.released .story-stack-area { height: 500px; }
-  /* Keep the exact same card dimensions after the fourth photo lands.
-     Without this, leaving the locked state removes the :not(.released)
-     sizing rules and the cards jump to the larger desktop dimensions. */
-  .story-stack-container.released .story-polaroid {
-    height: calc(var(--real-vh, 1vh) * 46);
-    max-height: 420px;
-    width: min(88vw, 360px);
-    padding: 8px 8px 42px;
-  }
-  .story-stack-container.released .story-polaroid-caption {
-    bottom: 12px;
-    font-size: 1.2rem;
-  }
-  .story-stack-container.released .story-polaroid-caption--final {
-    font-size: 1.7rem;
-  }
 }
 /* All 4 cards sit centered, fixed in place within the locked viewport.
    Each starts off-screen below except the first; JS advances them
@@ -1619,28 +1603,51 @@ function initStoryStack(){
     // style one-directional progression.)
   }
 
+  let wheelGestureWasLocked = false;
   function onWheel(e){
-    if(!locked) return;
+    if(!locked) {
+      wheelGestureWasLocked = false;
+      return;
+    }
     e.preventDefault();
+    // Require a fresh wheel event after lock activation; the scroll event that
+    // entered this section should not also advance a photo.
+    if(!wheelGestureWasLocked) {
+      wheelGestureWasLocked = true;
+      return;
+    }
     if(Math.abs(e.deltaY) < 4) return; // ignore tiny/noisy trackpad jitter
     advance(e.deltaY > 0 ? 1 : -1);
   }
 
   let touchStartY = null;
+  let touchStartedWhileLocked = false;
+
   function onTouchStart(e){
-    if(!locked) return;
-    touchStartY = e.touches[0].clientY;
+    // Only count a swipe if it began AFTER the story stack had locked scrolling.
+    // Otherwise, the swipe that first brings the section into view can accidentally
+    // count as a card-advance gesture and make cards appear to skip.
+    touchStartedWhileLocked = locked && !completed;
+    touchStartY = touchStartedWhileLocked ? e.touches[0].clientY : null;
   }
+
   function onTouchMove(e){
-    if(!locked) return;
-    e.preventDefault();
+    if(locked) e.preventDefault();
   }
+
   function onTouchEnd(e){
-    if(!locked || touchStartY === null) return;
+    if(!touchStartedWhileLocked || !locked || completed || touchStartY === null) {
+      touchStartY = null;
+      touchStartedWhileLocked = false;
+      return;
+    }
+
     const endY = e.changedTouches[0].clientY;
     const delta = touchStartY - endY;
     touchStartY = null;
-    if(Math.abs(delta) < 10) return; // ignore tiny taps/jitter
+    touchStartedWhileLocked = false;
+
+    if(Math.abs(delta) < 18) return; // ignore taps and tiny accidental movements
     advance(delta > 0 ? 1 : -1);
   }
 
