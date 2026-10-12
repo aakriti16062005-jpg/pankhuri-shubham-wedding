@@ -1521,6 +1521,7 @@ function initStoryStack(){
   let entered = false;        // whether we've ever activated the lock for this visit
   let completed = false;      // whether all cards have landed and lock has been released
   let animating = false;      // true while a landing transition is in-flight (debounce)
+  let ignoreAdvanceUntil = 0; // brief guard against the swipe that enters/locks this section
 
   function landCard(index){
     const wrap = wrappers[index];
@@ -1536,6 +1537,10 @@ function initStoryStack(){
     const containerTop = container.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: containerTop, behavior: 'auto' });
     locked = true;
+    // Ignore the in-progress gesture that brought the section into view; it must not
+    // also reveal the next card. The visitor needs to make a fresh swipe afterward.
+    ignoreAdvanceUntil = Date.now() + 850;
+    wheelGestureWasLocked = false;
     document.body.classList.add('no-scroll');
     if(hint) hint.classList.remove('hidden');
     // The first photo should already be sitting in place the moment this
@@ -1610,6 +1615,7 @@ function initStoryStack(){
       return;
     }
     e.preventDefault();
+    if(Date.now() < ignoreAdvanceUntil) return;
     // Require a fresh wheel event after lock activation; the scroll event that
     // entered this section should not also advance a photo.
     if(!wheelGestureWasLocked) {
@@ -1627,7 +1633,7 @@ function initStoryStack(){
     // Only count a swipe if it began AFTER the story stack had locked scrolling.
     // Otherwise, the swipe that first brings the section into view can accidentally
     // count as a card-advance gesture and make cards appear to skip.
-    touchStartedWhileLocked = locked && !completed;
+    touchStartedWhileLocked = locked && !completed && Date.now() >= ignoreAdvanceUntil;
     touchStartY = touchStartedWhileLocked ? e.touches[0].clientY : null;
   }
 
@@ -1636,7 +1642,7 @@ function initStoryStack(){
   }
 
   function onTouchEnd(e){
-    if(!touchStartedWhileLocked || !locked || completed || touchStartY === null) {
+    if(!touchStartedWhileLocked || !locked || completed || Date.now() < ignoreAdvanceUntil || touchStartY === null) {
       touchStartY = null;
       touchStartedWhileLocked = false;
       return;
