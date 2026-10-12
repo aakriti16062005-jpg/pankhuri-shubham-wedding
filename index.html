@@ -361,12 +361,13 @@ a { color:inherit; text-decoration:none; }
   border-radius: 2px;
   display: block;
 }
-/* Keep the full top of the groom's head visible in the second and third story photos. */
-.story-polaroid[data-index="1"] img {
-  object-position: center top;
-}
+/* Show the complete photos in cards 2 and 3 so neither face is cropped.
+   Contain preserves the original portrait framing on narrow mobile screens. */
+.story-polaroid[data-index="1"] img,
 .story-polaroid[data-index="2"] img {
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
+  background: var(--cream);
 }
 .story-polaroid-caption {
   position: absolute;
