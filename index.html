@@ -361,12 +361,12 @@ a { color:inherit; text-decoration:none; }
   border-radius: 2px;
   display: block;
 }
-/* Keep the groom's face fully visible in the second and third story photos. */
+/* Keep the full top of the groom's head visible in the second and third story photos. */
 .story-polaroid[data-index="1"] img {
-  object-position: center 8%;
+  object-position: center top;
 }
 .story-polaroid[data-index="2"] img {
-  object-position: center 8%;
+  object-position: center top;
 }
 .story-polaroid-caption {
   position: absolute;
@@ -406,10 +406,10 @@ a { color:inherit; text-decoration:none; }
 .story-scroll-hint svg { width: 18px; height: 18px; }
 .story-scroll-hint.hidden { display: none; }
 
-/* THE VENUE */
+/* THE VENUE — keep it visually connected to the final wedding card */
 .venue-section {
   background: var(--cream);
-  padding: 3rem 1.25rem 3.5rem;
+  padding: 1.25rem 1.25rem 2.5rem;
   text-align: center;
 }
 .venue-card {
@@ -487,7 +487,7 @@ a { color:inherit; text-decoration:none; }
 /* FESTIVITIES SECTION */
 .festivities-section {
   background: var(--cream);
-  padding: 3rem 1.25rem 3.5rem;
+  padding: 2rem 1.25rem .5rem;
   text-align: center;
 }
 .festivities-heading {
@@ -628,15 +628,16 @@ a { color:inherit; text-decoration:none; }
   max-width: min(100%, 620px);
   font-family: var(--font-body);
   font-style: normal;
-  font-weight: 600;
-  color: #fff0b0;
-  font-size: clamp(1.25rem, 4.6vw, 1.7rem);
-  line-height: 1.5;
+  font-weight: 700;
+  color: #ffe58a;
+  font-size: clamp(1.45rem, 5.2vw, 1.95rem);
+  line-height: 1.45;
   letter-spacing: .015em;
-  background: rgba(212,175,55,.13);
-  border: 1px solid rgba(232,206,115,.7);
+  text-shadow: 0 1px 10px rgba(0,0,0,.16);
+  background: rgba(212,175,55,.18);
+  border: 1.5px solid rgba(255,229,138,.9);
   border-radius: 1rem;
-  padding: .8rem 1.15rem;
+  padding: .9rem 1.2rem;
   margin: 0 auto 3.5rem;
   box-shadow: 0 8px 24px rgba(44,30,15,.09), inset 0 0 0 1px rgba(255,240,176,.05);
 }
@@ -994,6 +995,10 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('pagehide', stopBackgroundAudio);
 window.addEventListener('beforeunload', stopBackgroundAudio);
+// Some mobile browsers do not reliably fire visibilitychange when the user
+// switches apps or moves to another browser window, so also stop on blur.
+window.addEventListener('blur', stopBackgroundAudio);
+document.addEventListener('freeze', stopBackgroundAudio);
 
 function toggleSound(){
   soundOn = !soundOn;
@@ -1270,7 +1275,7 @@ let scrollEndTimer = null;
 
 function showScrollHint(){
   const toast = document.getElementById('scroll-toast');
-  if(!toast || toastVisible) return;
+  if(!toast || toastVisible || shouldSuppressScrollToast()) return;
   toast.classList.add('show');
   toastVisible = true;
   toastShownAt = Date.now();
@@ -1281,8 +1286,20 @@ function showScrollHint(){
   }, 7000);
 }
 
-function hideToast(){
-  if(toastVisible && Date.now() - toastShownAt > 800){
+function shouldSuppressScrollToast(){
+  // Keep the floating reminder away from the venue and closing content,
+  // where it can cover details or interfere with taking screenshots.
+  const lateSections = ['venueSection', 'festivitiesSection', 'closingSection'];
+  return lateSections.some(id => {
+    const el = document.getElementById(id);
+    if(!el || el.style.display === 'none') return false;
+    const r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  });
+}
+
+function hideToast(force = false){
+  if(force || (toastVisible && Date.now() - toastShownAt > 800)){
     const toast = document.getElementById('scroll-toast');
     if(toast) toast.classList.remove('show');
     toastVisible = false;
@@ -1318,8 +1335,18 @@ window.addEventListener('touchend', ()=>{
 }, { passive: true });
 window.addEventListener('click', onUserActivity);
 
-// Start idle detection immediately on page load
+// Start idle detection immediately on page load. The hint is suppressed
+// over the venue, festivities and closing sections.
 idleTimer = setTimeout(showScrollHint, 3000);
+window.addEventListener('scroll', () => {
+  if(shouldSuppressScrollToast()){
+    const toast = document.getElementById('scroll-toast');
+    if(toast) toast.classList.remove('show');
+    toastVisible = false;
+    clearTimeout(toastTimer);
+    clearTimeout(idleTimer);
+  }
+}, { passive: true });
 
 function smoothScrollTo(targetEl, duration){
   const startY = window.scrollY || window.pageYOffset;
