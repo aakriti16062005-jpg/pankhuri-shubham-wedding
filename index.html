@@ -54,10 +54,10 @@
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html {
   scroll-behavior: smooth;
-  /* Prevent Android Chrome from auto-inflating font sizes */
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  /* Respect the visitor's browser/OS text-size accessibility preference. */
+  -webkit-text-size-adjust: auto;
+  -moz-text-size-adjust: auto;
+  text-size-adjust: auto;
 }
 body { background: var(--cream); color: var(--text-dark); font-family: var(--font-body); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; text-rendering: optimizeLegibility; }
 body.no-scroll { overflow: hidden; height: 100vh; }
@@ -94,7 +94,24 @@ a { color:inherit; text-decoration:none; }
 .scroll-indicator { z-index:10; opacity:0; cursor:pointer; flex-direction:column; align-items:center; gap:6px; animation: fadeIn 1.5s 1.5s forwards; display:flex; position:absolute; bottom:2.5rem; left:50%; width:max-content; max-width:calc(100% - 2rem); text-align:center; transform: translateX(-50%); }
 .scroll-indicator span { font-family: var(--font-sans); letter-spacing:.25em; text-transform:uppercase; color: var(--sage-dark); font-size:.7rem; }
 .scroll-indicator svg { width:20px; height:20px; color:var(--sage-dark); animation: bounce 2s infinite; }
-@media (max-width: 380px) { .parent-sub { font-size: .8rem; letter-spacing: -.01em; } .scroll-indicator span { letter-spacing: .18em; font-size: .66rem; } }\n@keyframes bounce { 0%,20%,50%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} 60%{transform:translateY(-4px)} }
+@media (max-width: 380px) {
+  .parent-sub {
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+  .scroll-indicator {
+    width: calc(100% - 2rem);
+  }
+  .scroll-indicator span {
+    letter-spacing: .12em;
+    font-size: .75rem;
+    line-height: 1.45;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}\n@keyframes bounce { 0%,20%,50%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} 60%{transform:translateY(-4px)} }
 @keyframes fadeIn { to { opacity:1; } }
 
 .scratch-section { background: var(--cream); text-align:center; flex-direction:column; justify-content:center; align-items:center; min-height:88vh; padding:2rem 1rem; display:flex; }
@@ -655,9 +672,13 @@ a { color:inherit; text-decoration:none; }
 .closing-host-family {
   display: block;
   margin-top: .15rem;
-  font-size: .82em;
-  font-weight: 400;
-  color: rgba(253,251,247,.88);
+  /* Keep the family line about 6px smaller than the main host names,
+     while scaling down enough to stay on one line on narrow phones. */
+  font-size: clamp(1rem, calc(7vw - 6px), 3.5rem);
+  line-height: 1.15;
+  font-weight: 600;
+  color: rgba(253,251,247,.92);
+  white-space: nowrap;
 }
 .closing-couple {
   display: flex;
@@ -749,6 +770,51 @@ a { color:inherit; text-decoration:none; }
 #audio-btn svg { width:20px; height:20px; color: var(--sage-dark); }
 
 
+
+/* Accessibility: allow enlarged system text to reflow instead of clipping. */
+@media (max-width: 600px) {
+  .hero-card {
+    min-width: 0;
+    gap: clamp(.75rem, 2.5vh, 1.25rem);
+    padding: clamp(1rem, 4vw, 1.75rem) clamp(.9rem, 4vw, 1.5rem);
+  }
+  .couple-name {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: clamp(3.2rem, 17vw, 4.5rem);
+    line-height: 1.15;
+  }
+  .parent-sub {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    font-size: clamp(1rem, 4.3vw, 1.2rem);
+    line-height: 1.6;
+  }
+  .scroll-indicator {
+    max-width: calc(100% - 2rem);
+    width: max-content;
+  }
+  .scroll-indicator span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+  }
+  .scratch-section,
+  .countdown-section {
+    min-width: 0;
+  }
+  .scratch-desc,
+  .countdown-quote,
+  .intro-text,
+  .god-quote {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -794,7 +860,7 @@ a { color:inherit; text-decoration:none; }
   <section class="scratch-section" id="scratchSection">
     <span class="scratch-title-sub">The Date</span>
     <h2 class="scratch-title">Save the Date</h2>
-    <p class="scratch-desc">Scratch below to reveal our wedding date</p>
+    <p class="scratch-desc">Scratch below to reveal the wedding date</p>
     <div class="scratch-grid">
       <div class="scratch-item">
         <span class="scratch-label">Month</span>
@@ -908,7 +974,7 @@ a { color:inherit; text-decoration:none; }
         </div>
         <p class="festivities-dresscode-text">Pink &amp; White</p>
       </div>
-      <span class="venue-label">At Residence</span>
+      <span class="venue-label">At Our Residence</span>
       <p class="venue-addr">16, Model Estate, Deep Nagar,<br>Jalandhar Cantt, Punjab - 144005</p>
       <a class="venue-btn" href="https://google.com/maps?q=31.2897850,75.6441500&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869&g_ep=CAISEjI2LjI1LjMuOTMyMTI1MTg3MBgAINeCAypJLDk0Mjk3Njk5LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDEwMDgxMzQ2NCw5NDI4Njg2OUICSU4%3D&skid=66ecb015-80ff-4823-b4eb-114c6288765f&g_st=ic" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -922,7 +988,7 @@ a { color:inherit; text-decoration:none; }
       <p class="festivities-event-name">Mata ki Chowki</p>
       <p class="festivities-event-date">Monday &nbsp;·&nbsp; 23 Nov 2026</p>
       <p class="festivities-event-time">07:00 PM</p>
-      <span class="venue-label">At Residence</span>
+      <span class="venue-label">At Our Residence</span>
       <p class="venue-addr">16, Model Estate, Deep Nagar,<br>Jalandhar Cantt, Punjab - 144005</p>
       <a class="venue-btn" href="https://google.com/maps?q=31.2897850,75.6441500&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869&g_ep=CAISEjI2LjI1LjMuOTMyMTI1MTg3MBgAINeCAypJLDk0Mjk3Njk5LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDEwMDgxMzQ2NCw5NDI4Njg2OUICSU4%3D&skid=66ecb015-80ff-4823-b4eb-114c6288765f&g_st=ic" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -969,11 +1035,7 @@ a { color:inherit; text-decoration:none; }
     <p class="closing-quote">Your presence will turn this real-life romance into a blockbuster we'll never forget.</p>
         <p class="closing-regards-label">Warm Regards,</p>
     <p class="closing-regards-name"><span class="closing-host-main">Poonam &amp; Pawan Kaushal</span><span class="closing-host-family">and Kaushal family</span></p>
-    <div class="closing-couple">
-      <span class="closing-bride">Pankhuri</span>
-      <span class="closing-amp">&amp;</span>
-      <span class="closing-groom">Shubham</span>
-    </div>
+
   </section>
 </div>
 
